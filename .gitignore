@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+# generated data (regenerate with scripts; never commit third-party datasets)
+data/raw/
+data/processed/
+data/synthetic/
+*.npz
+# ROS 2 / simulation build products
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+# CAD / EDA backups
+*.FCBak
+*.FCStd1
+*-backups/
+*.kicad_prl
+fp-info-cache
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+node_modules/
