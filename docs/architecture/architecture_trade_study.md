@@ -72,4 +72,4 @@ planar grid. That suggests the simplest capable manipulator may be a 4-DOF arran
 translations plus yaw about the vertical), realised either as a Cartesian gantry or as a
 SCARA-type arm, rather than a 5/6-DOF articulated arm. The choice depends on approach direction
 under the canopy, stiffness at the blade and enclosure footprint. It will be decided with a
-workspace/torque/deflection analysis in Phase 2 (pending decision D-005), not by preference.
+workspace/torque/deflection analysis in Phase 2 (pending decision D-010), not by preference.

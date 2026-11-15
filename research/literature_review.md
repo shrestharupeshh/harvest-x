@@ -163,7 +163,7 @@ agriculture generally.
   accessible** from the build environment, so coverage is incomplete and full texts were not
   read. Chinese-language agricultural-engineering journals, where much hydroponic harvester
   work appears, are under-represented.
-- 21 of the bibliography's entries are still **[R]**; they are classics whose details are very
+- 19 of the bibliography's 42 entries are still **[R]**; they are classics whose details are very
   likely correct but have not been machine-checked.
 - At least two relevant papers were located only as index snippets and are *not* in the
   bibliography because their metadata could not be confirmed: a hydroponic-lettuce end effector
