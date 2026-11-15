@@ -1,0 +1,10 @@
+part,qty,material,mass_kg,bbox_mm,source
+ee_fork_plate,1,304 stainless steel (grade to be confirmed for food contact),1.0632,420.0 x 110.0 x 5.0,custom
+ee_skids,1,UHMW-PE,0.018,100.0 x 102.0 x 6.0,custom
+ee_blade,1,304 stainless steel (grade to be confirmed for food contact),0.0165,95.0 x 22.0 x 1.0,custom
+ee_blade_guard,1,304 stainless steel (grade to be confirmed for food contact),0.0356,99.0 x 30.0 x 1.5,custom
+ee_shank,1,6061-T6 aluminium,0.2196,58.0 x 46.0 x 300.0,custom
+ee_flange,1,6061-T6 aluminium,0.0644,63.0 x 63.0 x 8.0,custom
+ee_pull_rod,1,304 stainless steel (grade to be confirmed for food contact),0.0215,166.6 x 28.0 x 4.0,custom
+ee_actuator_envelope,1,purchased item (envelope),0.25,40.0 x 30.0 x 52.0,allowance (assumed mass)
+ee_camera_envelope,1,purchased item (envelope),0.08,30.0 x 14.0 x 14.0,allowance (assumed mass)

@@ -11,8 +11,10 @@ data file, calibration report) referenced beside it.
       plant (decides whether top-view stem localisation is needed at all; D-008/D-009).
 - [ ] A3 Measure stem diameter, canopy diameter/height and fresh mass at harvest.
 - [ ] A4 Capture overhead RGB-D images through the growth cycle with the candidate camera.
-- [ ] A5 Hand-cut trials with candidate blade geometries on a simple jig: note force feel,
-      cut quality, leaf interference.
+- [ ] A5 Hand-held fork-and-blade trials (parts from `cad/exports/`): does the stem seat,
+      does the head stay on the fork, are low leaves trapped, does the plate clear the
+      net-pot lip, cutting force with a spring scale or load cell, cut quality.
+- [ ] A6 Measure net-pot lip height and plug height above the channel.
 
 ## B. Fixture and growing system
 - [ ] B1 Frame, channels, reservoir, pump, lighting assembled and leak-tested

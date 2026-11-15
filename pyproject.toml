@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "harvest-x"
-version = "0.1.0"
+version = "0.2.0"
 description = "HARVEST-X: open research platform for autonomous lettuce harvesting in controlled-environment agriculture"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -21,14 +21,15 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4", "ruff>=0.4"]
+cad = ["cadquery>=2.4"]
 
 [tool.setuptools.packages.find]
-where = ["perception"]
-include = ["harvestx_perception*"]
+where = ["perception", "mechanical"]
+include = ["harvestx_perception*", "harvestx_mech*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["perception", "tools/utilities"]
+pythonpath = ["perception", "mechanical", "cad/scripts", "tools/utilities"]
 markers = ["slow: end-to-end tests that take more than a few seconds"]
 
 [tool.ruff]
@@ -37,7 +38,7 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
-ignore = ["E501", "E731", "B905"]  # E501: long f-strings in report writers
+ignore = ["E501", "E731", "E741", "B905"]  # E501: long f-strings in report writers
 
 [tool.ruff.lint.isort]
-known-first-party = ["harvestx_perception", "trade_study"]
+known-first-party = ["harvestx_perception", "harvestx_mech", "harvestx_cad", "trade_study"]

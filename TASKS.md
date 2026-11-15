@@ -3,12 +3,15 @@
 Ordered by priority within each block. IDs are stable.
 
 ## Now (next session)
-- [ ] T-012 AGC lettuce dataset: download locally, write loader, plant-level split, run the
+- [ ] T-012 (blocked: dataset host not reachable from the build environment) AGC lettuce dataset: download locally, write loader, plant-level split, run the
       feature/maturity/mass baselines on real RGB-D (first non-synthetic numbers)
-- [ ] T-013 Arm kinematics study for D-010: workspace + static torque + deflection scripts for
-      gantry, SCARA-type and articulated options, with tests
-- [ ] T-014 End-effector concept sheets (three concepts) with force estimates from literature
-- [ ] T-015 Check which CAD kernel installs in CI (CadQuery/OCP vs. FreeCAD) and record D-0xx
+- [ ] T-040 Gantry detail design: select linear modules, guides, drives and brake from
+      catalogues (verified data only); workspace check; cable chain; guarding
+- [ ] T-041 Hand-held bench rig of the fork + blade (STEP files exist) and test plan for the
+      six open risks in `docs/mechanical/mechanical_design.md` §6
+- [ ] T-042 Head-retention features (tine rails / hold-down) and boom stiffening rib
+- [ ] T-043 Dimensioned drawings and exploded views from the CadQuery model
+- [ ] T-044 Wire `VERIFIED` (stem-seated sensor) into the perception/decision contract
 - [ ] T-016 `research/experimental_protocol.md` and `research/research_proposal.md`
 
 ## Soon
@@ -34,3 +37,6 @@ Ordered by priority within each block. IDs are stable.
 - [x] T-005 Segmentation, features, maturity, stem localisation, decision baseline
 - [x] T-006 Benchmark + report + tests + CI
 - [x] T-007 Dataset registry and data-collection protocol draft
+- [x] T-013 Kinematics trade study (D-010)
+- [x] T-014 End-effector concept comparison, approach study, C3 CAD and calculations
+- [x] T-015 CAD kernel decision (D-016)

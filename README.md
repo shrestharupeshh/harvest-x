@@ -8,8 +8,9 @@
 
 > **Read this first.** HARVEST-X is at the start of its life. What exists today is the research
 > foundation, the system architecture, and a tested perception library evaluated **only on
-> synthetic data**. There is no CAD, no electronics, no firmware, no robot and no physical
-> experiment yet. Every number in this repository is labelled *simulated*, *estimated* or
+> synthetic data**, and a first-iteration mechanical design (parametric CAD of one end
+> effector plus analytical sizing). There are no electronics, no firmware, no robot and no
+> physical experiment yet. Every number in this repository is labelled *simulated*, *estimated* or
 > *measured*; at present all of them are *simulated*. See [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
 
 ## Overview
@@ -47,7 +48,10 @@ predicted maturity, target confidence, estimated cutting target (red) and true s
 | Benchmark with plant-level splits and cluster-bootstrap CIs | Implemented, in CI |
 | Literature review, gap analysis, research questions | First pass |
 | Architecture trade study, requirements, diagrams | v0.1 |
-| CAD, electronics, firmware, ROS 2, digital twin, dashboard | **Not started** |
+| Manipulator and end-effector decisions (gantry, cradle fork, side entry) | Decided, documented |
+| End-effector CAD (STEP/STL), interference and reach checks | Implemented, never built |
+| Sizing calculations (cutting, structure, axes, bolts, cycle) | Estimates, unit-tested |
+| Gantry detail, drawings, BOM, electronics, firmware, ROS 2, digital twin, dashboard | **Not started** |
 | Hardware, real data, physical experiments | **None** |
 
 ### First findings (simulated)
@@ -71,11 +75,28 @@ These numbers depend on assumed simulator parameters (stem scatter, lean, calibr
 Their value is that they turn "does vision add anything over the fixture?" into a concrete
 experiment and identify what to measure first on real plants.
 
+## Mechanical concept
+
+![CAD render of the end effector](docs/images/end_effector_render.png)
+
+*CAD render from the parametric model, not a photograph. Blue and green boxes reserve space
+for the blade gearmotor and wrist camera.*
+
+The perception result drives the mechanics. Since the stem cannot be seen from above, the
+tool tolerates the error instead: a flat fork slides along the channel top under the leaves
+from a plant-free flank, a V-shaped throat guides the stem into a seat, a light beam across
+the seat confirms the stem is there, and one blade sweeps across it. The channel sets the cut
+height, the fork carries the cut head, and the shank and actuator stay outside the canopy. A
+4-axis Cartesian gantry moves the tool. In a simulated geometric study this approach puts 29 %
+of leaf area and 1 % of inner leaves in the tool path, against 72–76 % and 79–98 % when
+descending through the canopy. None of this has been tried on a plant; the open risks and
+all estimates are in [`docs/mechanical/mechanical_design.md`](docs/mechanical/mechanical_design.md).
+
 ## System architecture
 
-Selected by a documented trade study: a **fixed arm beside one rack section, built
-rail-ready** (the arm base sits on a carriage plate so a linear axis can be added later).
-A mobile manipulator was evaluated and deferred.
+Selected by documented trade studies: a **stationary 4-axis gantry over one rack section**,
+whose X axis becomes the rail when the system is extended along a row. A mobile manipulator
+and articulated arms were evaluated and not chosen.
 
 ```mermaid
 flowchart LR
@@ -94,8 +115,8 @@ Details: [`docs/architecture/system_architecture.md`](docs/architecture/system_a
 [`system_requirements.md`](docs/architecture/system_requirements.md).
 
 **Hardware architecture (planned):** aluminium-extrusion frame carrying a 2 x 3-site NFT rack
-module, camera/light bridge, the arm on a carriage plate, interchangeable end effectors on a
-standard tool flange, and a collection tray on a load cell; 24 V motor bus behind a hard-wired
+module, camera/light bridge, the gantry, interchangeable end effectors on a standard tool
+flange, and a collection tray on a load cell; 24 V motor bus behind a hard-wired
 safety relay, a real-time MCU for motion and safety, and a main computer running ROS 2.
 
 **Software architecture (planned):** ROS-independent libraries (perception exists) wrapped by
@@ -124,7 +145,7 @@ Background: [`literature_review.md`](research/literature_review.md),
 |---|---|---|
 | 0 | Research foundation, architecture | Done (first pass) |
 | 1 | Perception and evaluation on synthetic data | Done; real-data and learned models next |
-| 2 | Mechanical design: arm, end effectors, rack, calculations | Planned |
+| 2 | Mechanical design: gantry, end effectors, rack, calculations | First iteration done; gantry detail and bench tests next |
 | 3 | Digital twin: URDF, Gazebo, MoveIt 2 | Planned |
 | 4 | Electronics and firmware | Planned |
 | 5 | Integrated ROS 2 software, state machine, dashboard | Planned |
@@ -142,10 +163,13 @@ harvest-x/
 ├── research/        literature review, gap analysis, comparison table, questions, bibliography
 ├── docs/architecture/   trade study (YAML + generated results), requirements, diagrams
 ├── perception/      harvestx_perception library, benchmark, results/synthetic_v0
+├── mechanical/      design parameters, harvestx_mech calculations and approach study
+├── cad/             CadQuery models, build script, STEP/STL/SVG exports
+├── docs/mechanical/ design rationale, trade studies, generated calculation reports
 ├── data/            dataset registry, collection protocol (no data committed)
 ├── tools/utilities/ trade-study tool
 ├── tests/           unit and integration tests
-├── cad/ electronics/ firmware/ ros2_ws/ simulation/ dashboard/ experiments/ procurement/
+├── electronics/ firmware/ ros2_ws/ simulation/ dashboard/ experiments/ procurement/
 │                    status notes only: not started
 └── PROJECT_STATUS · ROADMAP · DECISIONS · KNOWN_LIMITATIONS · TASKS · NEXT_STEPS ·
     HARDWARE_BUILD_CHECKLIST · CHANGELOG · CONTRIBUTING · LICENSING · SECURITY
@@ -183,6 +207,20 @@ Perception benchmark on synthetic scenes (about six minutes on four cores):
 python -m harvestx_perception.benchmark --out perception/results/synthetic_v0
 ```
 
+Mechanical calculations, approach study and CAD (CAD needs `pip install -e ".[cad]"`):
+
+```bash
+python -m harvestx_mech.report
+```
+
+```bash
+python -m harvestx_mech.approach_study
+```
+
+```bash
+python cad/scripts/build_cad.py
+```
+
 Regenerate the architecture trade study:
 
 ```bash
@@ -203,15 +241,16 @@ described in [`data/data_collection_protocol.md`](data/data_collection_protocol.
 ## Testing
 
 ```bash
-ruff check perception tools tests
+ruff check perception mechanical cad tools tests
 ```
 
 ```bash
 pytest
 ```
 
-35 tests (geometry, metrics, simulator consistency, pipeline contract, decision logic, trade
-study, and an end-to-end benchmark smoke test). CI runs them on Python 3.10 and 3.12 and
+50 tests (geometry, metrics, simulator consistency, pipeline contract, decision logic, trade
+study, mechanical calculations, CAD validity and interference, and an end-to-end benchmark
+smoke test). CI runs them on Python 3.10 and 3.12 and
 checks that the committed trade-study report matches its inputs.
 
 ## Experimental protocol

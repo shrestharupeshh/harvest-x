@@ -28,7 +28,7 @@ one complete supervised harvest cycle per plant.
 
 | ID | Requirement | Basis | Verif. |
 |---|---|---|---|
-| P-01 | Cutting-target in-plane error ≤ end-effector capture tolerance for ≥ 95 % of harvest attempts. Capture tolerance design goal: ± 10 mm **(A)**. | Synthetic benchmark shows top-view-only estimates do not meet this with the assumed stem scatter; drives the wrist-camera verification step and the end-effector capture geometry | T |
+| P-01 | Cutting-target in-plane error ≤ end-effector capture tolerance for ≥ 95 % of harvest attempts. Capture half-width of the selected fork: 25 mm for a 20 mm stem (D-014); the earlier ± 10 mm goal **(A)** remains the perception reporting tolerance. | Synthetic benchmark shows top-view-only estimates do not meet this with the assumed stem scatter; drives the wrist-camera verification step and the end-effector capture geometry | T |
 | P-02 | Cut height within ± 3 mm of commanded height above the channel **(A)**. | Product trim quality; channel clearance | T |
 | P-03 | Payload at the tool flange ≥ end effector mass + 0.5 kg product **(A)**; arm sized with torque margin ≥ 2 on the worst static case. | Mature heads assumed ≤ 0.3 kg **(A)** | A, T |
 | P-04 | Blade actuator sized for ≥ 5x the largest stem cutting force found in literature for hydroponic lettuce (order 10 N, to be re-read from `wang2021lettuceproperties`, `cui2021cutter`). | Margin for cultivar variation and blade wear | A, T |

@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-11-15 (end of session 1).
+Last updated: 2026-11-15 (end of session 2).
 
 Status vocabulary: Not started → In progress → Implemented → Tested in simulation →
 Tested on hardware → Experimentally validated. Levels are never skipped.
@@ -9,7 +9,7 @@ Tested on hardware → Experimentally validated. Levels are never skipped.
 
 | Subsystem | Status | Evidence / note |
 |---|---|---|
-| Repository, licences, CI | Implemented | `ruff` + `pytest` (35 tests) pass locally; GitHub Actions workflow committed, first remote run not yet observed |
+| Repository, licences, CI | Implemented | `ruff` + `pytest` (50 tests) pass locally; GitHub Actions green on the session-1 push; a CAD job was added in session 2 |
 | Literature review | In progress | First pass, abstract level; 25-work comparison table; 19 of 42 bibliography entries still unverified ([R]), 14 partly verified ([V*]) |
 | Research gap / contribution | In progress | Provisional direction D-009 |
 | Research proposal, experimental protocol, manuscript | Not started | |
@@ -22,9 +22,11 @@ Tested on hardware → Experimentally validated. Levels are never skipped.
 | Camera / hand-eye calibration | Not started | |
 | Learned perception models (YOLO, Mask R-CNN, …) | Not started | Deferred until real/photorealistic data (D-004) |
 | Dataset registry / collection protocol | Implemented (documents) | No data collected |
-| Robot arm (design, CAD, calculations) | Not started | Kinematics decision pending (D-010) |
-| End effectors | Not started | |
-| Growing rack / fixture | Not started | |
+| Manipulator (4-axis gantry) | In progress | Kinematics decided (D-010); axis requirements estimated; no module selection or detail CAD |
+| End effector C3 (cradle fork + slicing blade) | Implemented (CAD + analytical estimates) | Interference-free in CAD, reach check passes; never built or tried on a plant |
+| End effectors C1, C2 | Not started | Compared on paper only |
+| Engineering calculations | Implemented (estimates) | Closed-form, unit-tested; no FEA |
+| Growing rack / fixture | In progress | Envelope-level CAD only |
 | Electronics, PCB | Not started | |
 | Firmware | Not started | |
 | ROS 2 packages, motion planning, state machine | Not started | State machine specified as a diagram only |
@@ -60,6 +62,52 @@ Negative / uncomfortable results, stated plainly:
    in section 5 of the report rest on small counts and are not statistically meaningful.
 3. A provisional 10 mm tolerance is not met by top-view perception under the assumed stem
    scatter (19 % of fused targets miss it).
+
+## Mechanical results so far (ESTIMATED or SIMULATED, none measured)
+
+| Quantity | Result | Kind |
+|---|---|---|
+| Leaf area in tool path: top-down / beside stem / side entry | 76 % / 72 % / 29 % | Simulated, rigid leaves |
+| Inner-leaf area in tool path, same order | 98 % / 79 % / 1 % | Simulated |
+| Stem capture probability of the 70 mm V-throat for a 6.5 mm sigma target | > 0.999 | Estimated (Gaussian) |
+| Straight-chop stem force upper bound | 110 N | Estimated from a placeholder shear strength |
+| Blade actuator torque with safety factor 2 | 9.2 N·m | Estimated |
+| End-effector mass | 1.77 kg | CAD volumes + assumed allowances |
+| Lateral deflection at the stem seat under 10 N | 0.42 mm | Estimated, structure only |
+| Kinematic cycle estimate | 11 s | Estimated from motion limits |
+
+## Session 2 summary
+
+**Completed**
+- Owner delegated all decisions and removed the budget limit; crop/format fixed (D-013).
+- Kinematics trade study: 4-axis Cartesian gantry (D-010). End-effector comparison: cradle
+  fork with pivoting slicing blade (D-014). Side-entry approach and robot-accessible rack
+  (D-015), supported by a simulated leaf-interference study. Verification by stem-seated
+  sensor (D-017). CadQuery as CAD kernel (D-016).
+- `harvestx_mech`: design parameters, calculation library, generated calculation report,
+  approach study.
+- `harvestx_cad`: parametric end effector and envelope-level rack; STEP, STL, SVG, renders,
+  parts list, mass properties.
+
+**Design iterations forced by the analysis (kept in the record)**
+- Blade section increased after the first calculation gave a factor of safety of 1.5.
+- First CAD layout had the shank foot inside the blade sweep; found by inspection, now
+  guarded by an automated interference test.
+- The compact tool with a vertical shank at the head was abandoned when the approach geometry
+  showed it must pass through the canopy; replaced by a low head on a boom.
+- Skids raised from 2 to 6 mm so the plate clears a net-pot lip.
+
+**Tests performed**
+- `ruff` clean; `pytest`: 50 passed, including CAD validity, interference (blade open and
+  closed), functional geometry, mass budget, rack clearances, calculation hand-checks.
+- All generated reports and CAD exports regenerated from scripts.
+
+**Unresolved issues**
+- Every mechanical premise is untested on plants (six open risks in
+  `docs/mechanical/mechanical_design.md` §6).
+- The public lettuce dataset host is not reachable from the build environment, so the
+  planned real-data check (T-012) is blocked.
+- Gantry is not detailed; no drawings, no BOM.
 
 ## Session 1 summary
 

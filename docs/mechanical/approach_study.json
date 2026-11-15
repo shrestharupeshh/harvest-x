@@ -1,0 +1,50 @@
+{
+  "data_kind": "SIMULATED",
+  "n_plants": 300,
+  "seed": 0,
+  "age_days": 34.0,
+  "results": {
+    "S1 top-down onto the stem (compact tool, vertical shank)": {
+      "target": {
+        "mean": 0.757960158185501,
+        "p95": 0.8515700600829325
+      },
+      "target_inner": {
+        "mean": 0.9770827793213134,
+        "p95": 1.0
+      },
+      "neighbours": {
+        "mean": 9.281091667972558e-05,
+        "p95": 0.0
+      }
+    },
+    "S2 descend through canopy beside the stem, short slide": {
+      "target": {
+        "mean": 0.723180088298664,
+        "p95": 0.8330306663164
+      },
+      "target_inner": {
+        "mean": 0.7925624177204871,
+        "p95": 0.9469556987946184
+      },
+      "neighbours": {
+        "mean": 8.666708813885208e-05,
+        "p95": 0.0
+      }
+    },
+    "S3 side entry under canopy (low-profile head on boom)": {
+      "target": {
+        "mean": 0.286139376956829,
+        "p95": 0.38040757870916597
+      },
+      "target_inner": {
+        "mean": 0.009627911072943833,
+        "p95": 0.03633286258614926
+      },
+      "neighbours": {
+        "mean": 1.4824361671629639e-05,
+        "p95": 0.0
+      }
+    }
+  }
+}

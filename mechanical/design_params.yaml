@@ -1,0 +1,62 @@
+# Single source of truth for mechanical design parameters (SI units unless suffixed).
+# status: A = assumed (must be measured/confirmed), D = design choice, S = standard value.
+crop:
+  cultivar_type: butterhead            # D  (D-013)
+  head_mass_max_kg: 0.40               # A
+  canopy_diameter_max_m: 0.35          # A
+  canopy_height_max_m: 0.25            # A
+  stem_diameter_max_m: 0.020           # A
+  stem_scatter_sigma_m: 0.006          # A  (per axis, relative to net-pot centre)
+  stem_shear_strength_pa: 0.35e6       # A  placeholder; replace with bench data (checklist A5)
+rack:
+  n_channels: 2                        # D
+  sites_per_channel: 3                 # D
+  pitch_along_m: 0.22                  # D
+  pitch_across_m: 0.24                 # D
+  flank_clear_m: 0.30                  # D  plant-free strip beside each channel for side entry
+  channel_width_m: 0.10                # D
+  channel_height_m: 0.05               # D
+  net_pot_diameter_m: 0.05             # D
+end_effector:
+  throat_entry_width_m: 0.070          # D  captures +/-35 mm lateral error
+  slot_width_m: 0.022                  # D  = stem max + 2 mm
+  tine_length_m: 0.120                 # D
+  plate_width_m: 0.110                 # D
+  plate_thickness_m: 0.005             # D  304 stainless
+  tine_width_m: 0.020                  # D
+  skid_thickness_m: 0.006              # D  UHMW-PE wear pads; plate underside clears a net-pot lip <= 5 mm (A)
+  blade_length_m: 0.085                # D
+  blade_width_m: 0.022                 # D  (iterated: 18 x 0.6 mm gave FoS 1.5)
+  blade_thickness_m: 0.0010            # D
+  blade_force_radius_m: 0.042          # D  pivot to stem centre
+  boom_length_m: 0.24                  # D  flat boom keeps shank + actuator outside the canopy
+  boom_width_m: 0.050                  # D
+  shank_length_m: 0.30                 # D
+  shank_tube_m: [0.030, 0.030, 0.002]  # D  6061 square tube b, h, wall
+  mass_estimate_kg: 1.2                # A  replaced by CAD-derived mass in the report
+  lateral_contact_force_n: 10.0        # A  stem/leaf contact while seating
+gantry:
+  travel_m: {x: 0.90, y: 1.00, z: 0.35}   # D
+  v_max_mps: {x: 0.5, y: 0.5, z: 0.25}    # D
+  a_max_mps2: {x: 2.0, y: 2.0, z: 1.5}    # D
+  moving_mass_kg: {x: 22.0, y: 9.0, z: 4.0}   # A  includes everything the axis carries, excl. tool+payload
+  drive:
+    x: {type: belt, pulley_radius_m: 0.015, efficiency: 0.90}
+    y: {type: belt, pulley_radius_m: 0.015, efficiency: 0.90}
+    z: {type: screw, lead_m: 0.010, efficiency: 0.85}
+  friction_coeff: 0.02                 # A  rolling guides
+  bridge_span_m: 1.22                  # D
+  bridge_tube_m: [0.040, 0.080, 0.003] # A  hollow-rectangle idealisation of a 40x80 extrusion
+  z_ram_tube_m: [0.040, 0.040, 0.003]  # D
+  z_ram_overhang_m: 0.35               # D  worst-case unsupported length
+safety_factors:
+  drive_torque: 2.0
+  structure_yield: 3.0
+  blade_actuator: 2.0
+materials:
+  al6061_t6: {E_pa: 68.9e9, yield_pa: 276e6, density: 2700}   # S
+  ss304: {E_pa: 193e9, yield_pa: 215e6, density: 8000}        # S (annealed)
+  uhmw: {density: 940}
+  bolt_a2_70_proof_pa: 450e6            # S  ISO 3506 A2-70 0.2 % proof
+tolerances:
+  capture_tolerance_m: 0.010            # superseded by fork geometry, kept for perception

@@ -91,10 +91,16 @@ Each entry: decision, alternatives, reasoning, consequences, date. Status is one
 - **Consequences:** The first physical measurement must be stem scatter relative to the net
   pot. To be re-confirmed after a systematic database search.
 
-## D-010 Arm kinematics — Pending (Phase 2)
-- **Question:** 4-DOF (XYZ + yaw; gantry or SCARA-type) versus 5/6-DOF articulated arm.
-- **Evidence needed:** approach-direction study under the canopy, workspace, joint torque,
-  blade-tip deflection and cost for each option.
+## D-010 Manipulator kinematics: 4-axis Cartesian gantry — Accepted (2026-11-15)
+- **Decision:** X-Y-Z gantry plus tool yaw, built from commercial linear modules.
+- **Alternatives:** SCARA-type arm; commercial 6-DOF cobot; custom articulated arm.
+- **Reasoning:** The task needs three translations and yaw only. Trade study
+  (`docs/mechanical/kinematics_trade_results.md`): gantry 4.60, SCARA 3.35, cobot 3.30,
+  custom arm 1.95. Stiffest at the tool, simplest planning, fits tier headroom in a vertical
+  rack, and its X axis is the rail of D-003.
+- **Consequences:** No custom arm will be designed. "Arm" in earlier documents means this
+  gantry. Little dexterity for arbitrary camera views; the tool flange pattern lets a cobot
+  carry the same end effector.
 
 ## D-011 ROS 2 distribution — Pending verification
 - **Leaning:** an LTS distribution (Jazzy Jalisco on Ubuntu 24.04 at the time of writing).
@@ -103,3 +109,49 @@ Each entry: decision, alternatives, reasoning, consequences, date. Status is one
   computer. Not checked yet because ROS 2 is not installable in the current build environment.
 
 ## D-012 Compute, MCU, drivers, communication protocol — Pending (Phase 4)
+
+## D-013 Crop, growing format and budget stance — Accepted (2026-11-15)
+- **Decision:** Butterhead-type lettuce on 100 x 50 mm NFT channels, 50 mm net pots, 220 mm
+  pitch along and 240 mm across; component choice is driven by capability and risk, not cost
+  (the owner removed the budget limit and delegated these decisions).
+- **Alternatives:** Loose-leaf or romaine; deep-water raft culture; tighter spacing.
+- **Reasoning:** Butterhead is a standard hydroponic head type with a compact rosette and a
+  short stem, which is the hard case for stem access. NFT channels provide a rigid datum.
+- **Consequences:** Results will be cultivar- and system-specific; a second cultivar is
+  needed before generalising. All numbers remain assumptions until plants are measured.
+
+## D-014 End effector: cradle fork with pivoting slicing blade — Accepted for prototyping (2026-11-15)
+- **Decision:** Concept C3 with a V-throat for lateral self-centring, channel-riding skids as
+  height datum, a through-beam stem-seated sensor, and all bulky parts behind a 240 mm boom.
+- **Alternatives:** C1 scissor/guillotine; C2 enclosing gripper with blade.
+- **Reasoning:** `docs/mechanical/end_effector_trade_results.md` (C3 4.08, C1 3.44, C2 2.54)
+  and the simulated approach study. The perception benchmark showed the stem cannot be
+  located from above to better than the fixture prior, so tolerance is provided mechanically.
+- **Consequences:** Head retention relies on gravity (open risk). C1 and C2 remain as
+  comparison arms for the end-effector experiment but are not detailed yet.
+
+## D-015 Side entry and a robot-accessible rack — Accepted (2026-11-15)
+- **Decision:** The tool enters horizontally under the canopy from a plant-free flank; racks
+  are two channels deep with 300 mm clear flanks.
+- **Alternatives:** Top-down access; descending between plants.
+- **Reasoning:** Simulated leaf area in the tool path: 29 % (side entry, 1 % of inner leaves)
+  versus 72-76 % (through the canopy, 79-98 % of inner leaves).
+- **Consequences:** More floor area per plant than a dense rack; yaw axis needed. The study
+  uses rigid, idealised leaves and must be repeated with real plant geometry.
+
+## D-016 CAD kernel: CadQuery — Accepted (2026-11-15)
+- **Decision:** Script CAD with CadQuery (OpenCASCADE); exchange via STEP.
+- **Alternatives:** FreeCAD Python API (not installable in the build environment, heavier in
+  CI); OpenSCAD (no STEP output).
+- **Reasoning:** Installs with pip, headless, testable (volume, interference and geometry
+  checks run in CI).
+- **Consequences:** No native FreeCAD files; STEP imports into FreeCAD and commercial CAD.
+
+## D-017 Target verification by a stem-seated sensor — Accepted (2026-11-15)
+- **Decision:** `VERIFIED` is set by a through-beam sensor across the fork seat (optionally
+  confirmed by the wrist camera); the blade is interlocked to it.
+- **Alternatives:** Vision-only verification from an oblique view.
+- **Reasoning:** A binary optical gate is simpler and more robust than classifying a stem in
+  a cluttered close-up, and it is exactly the condition that makes cutting safe.
+- **Consequences:** A leaf stalk or debris in the seat could trigger it; the wrist camera and
+  cut-force signature are the cross-checks to evaluate.

@@ -1,0 +1,19 @@
+{
+  "end_effector_total_kg": 1.7689,
+  "end_effector_parts_kg": {
+    "fork_plate": 1.0632,
+    "skids": 0.018,
+    "blade": 0.0165,
+    "blade_guard": 0.0356,
+    "shank": 0.2196,
+    "flange": 0.0644,
+    "pull_rod": 0.0215,
+    "actuator_envelope": 0.25,
+    "camera_envelope": 0.08
+  },
+  "head_height_under_canopy_mm": 25.0,
+  "blade_reaches_stem": true,
+  "interference_blade_open_mm3": {},
+  "interference_blade_closed_mm3": {},
+  "note": "CAD-derived masses for custom parts; purchased items are assumed allowances"
+}

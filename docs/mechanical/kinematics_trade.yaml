@@ -1,0 +1,26 @@
+# Manipulator kinematics trade study (decision D-010). Scores are engineering judgement
+# (1-5, 5 = best); rationale in mechanical_design.md.
+architectures:
+  K1_gantry: "K1 - Cartesian gantry X-Y-Z + tool yaw (4-DOF, commercial linear modules)"
+  K2_scara: "K2 - SCARA-type arm (4-DOF)"
+  K3_cobot: "K3 - Commercial 6-DOF collaborative arm"
+  K4_custom_arm: "K4 - Custom-built 5/6-DOF articulated arm"
+criteria:                     # K1 K2 K3 K4
+  task_fit:                   [5, 4, 4, 3]
+  tool_stiffness_precision:   [5, 4, 4, 2]
+  planning_simplicity:        [5, 4, 2, 2]
+  tier_headroom_fit:          [5, 3, 1, 1]
+  scalability_along_rack:     [5, 2, 3, 2]
+  low_build_risk:             [4, 4, 5, 1]
+  dexterity_for_extra_views:  [2, 2, 5, 4]
+  guarding_and_safety:        [4, 3, 3, 2]
+profiles:
+  prototype_and_scale_up:
+    task_fit: 15
+    tool_stiffness_precision: 15
+    planning_simplicity: 10
+    tier_headroom_fit: 15
+    scalability_along_rack: 15
+    low_build_risk: 15
+    dexterity_for_extra_views: 5
+    guarding_and_safety: 10

@@ -29,10 +29,16 @@ is tested where testable, and is committed; it never implies hardware validation
 - ⬜ 1b: close-range stem verification from an oblique view
 
 ## Phase 2 — Mechanical design
-- ⬜ Arm kinematics study (D-010): workspace, torque, deflection scripts
-- ⬜ Three end-effector concepts → comparison → detailed CAD of the preferred one
-- ⬜ Rack / fixture CAD; arm CAD; drawings; BOM
-- ⬜ CAD toolchain decision (FreeCAD scripting vs. CadQuery) after installability check
+- ✅ Kinematics trade study → 4-axis gantry (D-010)
+- ✅ End-effector concept comparison → cradle fork C3 (D-014); approach study (D-015)
+- ✅ Parametric CAD of the C3 end effector with interference and reach checks; STEP/STL
+- ✅ Analytical calculations with tests (cutting, blade, tines, boom, stiffness, axes, bolts, capture, cycle)
+- ✅ CAD toolchain decision: CadQuery (D-016)
+- 🟡 Rack / fixture CAD (envelope level only)
+- ⬜ Gantry detail design with selected linear modules, guides, drives, cable chain
+- ⬜ Bench validation of the fork-and-blade principle on real plants (checklist A5)
+- ⬜ Concepts C1 and C2 as CAD for the comparison experiment
+- ⬜ Dimensioned drawings, exploded views, BOM, FEA of fork/boom
 
 ## Phase 3 — Simulation
 - ⬜ URDF/Xacro incl. rail joint; Gazebo world; MoveIt 2 config; scenario runner

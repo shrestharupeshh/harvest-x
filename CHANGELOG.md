@@ -2,6 +2,27 @@
 
 All notable changes are recorded here. Format follows Keep a Changelog; versions follow SemVer.
 
+## [0.2.0] - 2026-11-15
+
+Phase 2 (mechanical design), first iteration.
+
+### Added
+- `mechanical/`: design parameters with assumption tags, `harvestx_mech` calculation library,
+  generated calculation report, simulated approach-direction study.
+- `cad/`: parametric CadQuery models of the C3 cradle-fork end effector and an envelope-level
+  rack fixture; STEP/STL/SVG exports, renders, parts list, mass properties.
+- Trade studies for manipulator kinematics and end-effector concept; decisions D-010 and
+  D-013 to D-017.
+- 15 new tests (calculations, approach study, CAD validity/interference/geometry); CI job that
+  installs the CAD kernel and regenerates the models.
+
+### Changed
+- "Arm" is now a 4-axis Cartesian gantry; no custom articulated arm will be designed.
+- Rack layout widened for side entry.
+
+### Still not included
+- Hardware, real data, gantry detail design, drawings, BOM, electronics, firmware, ROS 2.
+
 ## [0.1.0] - 2026-11-15
 
 Phase 0 (research foundation) and first slice of Phase 1 (perception).

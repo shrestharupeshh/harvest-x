@@ -3,13 +3,13 @@
 Last updated 2026-11-15. This file is deliberately blunt.
 
 ## Project-level
-- **No hardware exists.** No CAD, electronics, firmware, ROS 2 code, simulation or dashboard
-  has been produced yet. Only the perception library, research documents and architecture
-  documents exist.
+- **No hardware exists.** No electronics, firmware, ROS 2 code, robot simulation or dashboard
+  has been produced yet. The perception library, the research and architecture documents,
+  first-iteration CAD of one end effector and analytical calculations exist.
 - **No real data.** Not a single real image or measurement has been used. Every number in
   the repository is *simulated*.
 - **Toolchain gaps in the build environment:** FreeCAD, Blender, ROS 2, Gazebo, KiCad and
-  LaTeX were not available, and DOI/publisher sites were not reachable. Work that needs them
+  LaTeX were not available, and DOI/publisher and dataset hosts were not reachable. Work that needs them
   is planned, not done.
 
 ## Literature review
@@ -43,6 +43,19 @@ Last updated 2026-11-15. This file is deliberately blunt.
 - ExG segmentation fails on red-leaf cultivars by construction; depth is required for them.
 - Maturity models are trained on synthetic features only and are not transferable.
 - Runtime was measured on a cloud CPU, not on an embedded target.
+
+## Mechanical design
+- The end effector is a first-iteration concept that has never been made or tried on a plant.
+  Its key premises (a stem seats in a V-throat, a head stays on the fork, low leaves tolerate
+  a 25 mm tall tool sliding under them) are untested.
+- Cutting force uses a placeholder shear strength (0.35 MPa); crop dimensions, net-pot lip
+  height and stem scatter are assumptions.
+- Calculations are closed-form and first-order: no FEA, fatigue, bearing life, bolt preload,
+  blade buckling or dynamics. Gantry moving masses are guesses until modules are selected.
+- The approach study treats leaves as rigid and fixed; it bounds contact, not damage.
+- The rack and gantry CAD is envelope-level (plain bars); the purchased gearmotor and camera
+  are space reservations with assumed masses. No dimensioned drawings exist.
+- Trade-study scores are engineering judgement.
 
 ## Decision baseline
 - Evaluated as a perception-only upper bound with an ideal manipulator; no reachability,
