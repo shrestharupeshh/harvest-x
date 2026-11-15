@@ -13,8 +13,12 @@ Phase 2 (mechanical design), first iteration.
   rack fixture; STEP/STL/SVG exports, renders, parts list, mass properties.
 - Trade studies for manipulator kinematics and end-effector concept; decisions D-010 and
   D-013 to D-017.
-- 15 new tests (calculations, approach study, CAD validity/interference/geometry); CI job that
+- 25 new tests (calculations, approach study, CAD validity/interference/geometry, state
+  machine, integrated study); CI job that
   installs the CAD kernel and regenerates the models.
+
+- `harvesting/`: harvest state machine with simulated gantry and fork (dry-run default,
+  e-stop abort, sensor gate, lateral retry) and an integrated perception-to-harvest study.
 
 ### Changed
 - "Arm" is now a 4-axis Cartesian gantry; no custom articulated arm will be designed.

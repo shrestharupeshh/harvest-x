@@ -11,7 +11,9 @@ Ordered by priority within each block. IDs are stable.
       six open risks in `docs/mechanical/mechanical_design.md` §6
 - [ ] T-042 Head-retention features (tine rails / hold-down) and boom stiffening rib
 - [ ] T-043 Dimensioned drawings and exploded views from the CadQuery model
-- [ ] T-044 Wire `VERIFIED` (stem-seated sensor) into the perception/decision contract
+- [ ] T-045 Improve maturity-gate recall (only 28 of 96 ready plants attempted in simulation):
+      threshold study, ordinal models, repeated observation over days
+- [ ] T-046 Adaptive lateral search (step scaled to capture width) and larger simulated sample
 - [ ] T-016 `research/experimental_protocol.md` and `research/research_proposal.md`
 
 ## Soon
@@ -40,3 +42,4 @@ Ordered by priority within each block. IDs are stable.
 - [x] T-013 Kinematics trade study (D-010)
 - [x] T-014 End-effector concept comparison, approach study, C3 CAD and calculations
 - [x] T-015 CAD kernel decision (D-016)
+- [x] T-044 Stem-seated sensor gate in the harvest state machine; integrated simulation

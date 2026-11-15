@@ -9,7 +9,7 @@ Tested on hardware → Experimentally validated. Levels are never skipped.
 
 | Subsystem | Status | Evidence / note |
 |---|---|---|
-| Repository, licences, CI | Implemented | `ruff` + `pytest` (50 tests) pass locally; GitHub Actions green on the session-1 push; a CAD job was added in session 2 |
+| Repository, licences, CI | Implemented | `ruff` + `pytest` (60 tests) pass locally; GitHub Actions green incl. the CAD job (run 2); last push not yet observed |
 | Literature review | In progress | First pass, abstract level; 25-work comparison table; 19 of 42 bibliography entries still unverified ([R]), 14 partly verified ([V*]) |
 | Research gap / contribution | In progress | Provisional direction D-009 |
 | Research proposal, experimental protocol, manuscript | Not started | |
@@ -29,7 +29,9 @@ Tested on hardware → Experimentally validated. Levels are never skipped.
 | Growing rack / fixture | In progress | Envelope-level CAD only |
 | Electronics, PCB | Not started | |
 | Firmware | Not started | |
-| ROS 2 packages, motion planning, state machine | Not started | State machine specified as a diagram only |
+| Harvest state machine | Tested in simulation | Pure Python against kinematic gantry + geometric fork model; dry-run default, e-stop abort, sensor gate, lateral retry |
+| Integrated harvest simulation | Tested in simulation | Perception → decision → sequence; no cutting or damage physics |
+| ROS 2 packages, motion planning | Not started | |
 | Digital twin (Gazebo / MoveIt 2) | Not started | |
 | Dashboard | Not started | |
 | Procurement / BOM | Not started | |
@@ -75,6 +77,10 @@ Negative / uncomfortable results, stated plainly:
 | End-effector mass | 1.77 kg | CAD volumes + assumed allowances |
 | Lateral deflection at the stem seat under 10 N | 0.42 mm | Estimated, structure only |
 | Kinematic cycle estimate | 11 s | Estimated from motion limits |
+| Blind cuts, 5 mm capture, open loop: vision / fixture prior / fusion | 81 % / 38 % / 44 % of 32 attempts | Simulated |
+| Blind cuts, 25 mm capture (selected fork), fixture prior or fusion | 0 of 32 | Simulated |
+| Blind cuts with stem-seated sensor, any width | 0 (by construction; become misses) | Simulated |
+| Harvest-ready plants actually attempted at P ≥ 0.6 | 28 of 96 | Simulated; the maturity gate is the throughput bottleneck |
 
 ## Session 2 summary
 
@@ -98,11 +104,16 @@ Negative / uncomfortable results, stated plainly:
 - Skids raised from 2 to 6 mm so the plate clears a net-pot lip.
 
 **Tests performed**
-- `ruff` clean; `pytest`: 50 passed, including CAD validity, interference (blade open and
+- `ruff` clean; `pytest`: 60 passed, including CAD validity, interference (blade open and
   closed), functional geometry, mass budget, rack clearances, calculation hand-checks.
 - All generated reports and CAD exports regenerated from scripts.
 
+- Harvest state machine and integrated simulation added after the mechanical work; 60 tests.
+
 **Unresolved issues**
+- The integrated study has only 32 attempts; percentages carry wide uncertainty. Lateral
+  retry steps of 20 mm are too coarse to help a 5 mm tool.
+- The conservative maturity gate attempts under a third of the truly ready plants.
 - Every mechanical premise is untested on plants (six open risks in
   `docs/mechanical/mechanical_design.md` §6).
 - The public lettuce dataset host is not reachable from the build environment, so the

@@ -51,7 +51,9 @@ predicted maturity, target confidence, estimated cutting target (red) and true s
 | Manipulator and end-effector decisions (gantry, cradle fork, side entry) | Decided, documented |
 | End-effector CAD (STEP/STL), interference and reach checks | Implemented, never built |
 | Sizing calculations (cutting, structure, axes, bolts, cycle) | Estimates, unit-tested |
-| Gantry detail, drawings, BOM, electronics, firmware, ROS 2, digital twin, dashboard | **Not started** |
+| Harvest state machine with simulated gantry and fork (dry-run default, e-stop, sensor gate, retry) | Tested in simulation |
+| Integrated simulation: perception → decision → harvest sequence | Tested in simulation |
+| Gantry detail, drawings, BOM, electronics, firmware, ROS 2, Gazebo twin, dashboard | **Not started** |
 | Hardware, real data, physical experiments | **None** |
 
 ### First findings (simulated)
@@ -89,7 +91,14 @@ the seat confirms the stem is there, and one blade sweeps across it. The channel
 height, the fork carries the cut head, and the shank and actuator stay outside the canopy. A
 4-axis Cartesian gantry moves the tool. In a simulated geometric study this approach puts 29 %
 of leaf area and 1 % of inner leaves in the tool path, against 72–76 % and 79–98 % when
-descending through the canopy. None of this has been tried on a plant; the open risks and
+descending through the canopy. In the integrated simulation
+([`simulation/results/harvest_sim_v0/REPORT.md`](simulation/results/harvest_sim_v0/REPORT.md),
+32 attempts on 30 held-out trays), a blade-only tool with 5 mm of capture fires blind on 38–81 %
+of attempts depending on the target source; with 15 mm or more of capture and the fixture
+prior or fusion target every attempted stem was seated, and the stem-seated sensor turned the
+remaining blind cuts into harmless misses. Cutting and damage are not simulated.
+
+None of this has been tried on a plant; the open risks and
 all estimates are in [`docs/mechanical/mechanical_design.md`](docs/mechanical/mechanical_design.md).
 
 ## System architecture
@@ -164,12 +173,14 @@ harvest-x/
 ├── docs/architecture/   trade study (YAML + generated results), requirements, diagrams
 ├── perception/      harvestx_perception library, benchmark, results/synthetic_v0
 ├── mechanical/      design parameters, harvestx_mech calculations and approach study
+├── harvesting/      harvest state machine, simulated gantry/tool, integrated study
+├── simulation/      results of the integrated harvest simulation
 ├── cad/             CadQuery models, build script, STEP/STL/SVG exports
 ├── docs/mechanical/ design rationale, trade studies, generated calculation reports
 ├── data/            dataset registry, collection protocol (no data committed)
 ├── tools/utilities/ trade-study tool
 ├── tests/           unit and integration tests
-├── electronics/ firmware/ ros2_ws/ simulation/ dashboard/ experiments/ procurement/
+├── electronics/ firmware/ ros2_ws/ dashboard/ experiments/ procurement/
 │                    status notes only: not started
 └── PROJECT_STATUS · ROADMAP · DECISIONS · KNOWN_LIMITATIONS · TASKS · NEXT_STEPS ·
     HARDWARE_BUILD_CHECKLIST · CHANGELOG · CONTRIBUTING · LICENSING · SECURITY
@@ -221,14 +232,21 @@ python -m harvestx_mech.approach_study
 python cad/scripts/build_cad.py
 ```
 
+Integrated harvest simulation (about three minutes):
+
+```bash
+python -m harvestx_harvest.study
+```
+
 Regenerate the architecture trade study:
 
 ```bash
 python tools/utilities/trade_study.py docs/architecture/trade_study.yaml -o docs/architecture/trade_study_results.md
 ```
 
-**Simulation:** the robot digital twin (Gazebo / MoveIt 2) does not exist yet. The only
-simulation available is the perception-level scene generator used by the benchmark.
+**Simulation:** there is no Gazebo / MoveIt 2 digital twin yet. What exists is the
+perception-level scene generator and a kinematic harvest simulation (gantry timing and
+geometric stem capture; cutting and damage are not modelled).
 
 ## Datasets
 
@@ -241,16 +259,16 @@ described in [`data/data_collection_protocol.md`](data/data_collection_protocol.
 ## Testing
 
 ```bash
-ruff check perception mechanical cad tools tests
+ruff check perception mechanical harvesting cad tools tests
 ```
 
 ```bash
 pytest
 ```
 
-50 tests (geometry, metrics, simulator consistency, pipeline contract, decision logic, trade
-study, mechanical calculations, CAD validity and interference, and an end-to-end benchmark
-smoke test). CI runs them on Python 3.10 and 3.12 and
+60 tests (geometry, metrics, simulator consistency, pipeline contract, decision logic, trade
+study, mechanical calculations, CAD validity and interference, the harvest state machine and
+its safety behaviour, and end-to-end smoke tests of the benchmark and the harvest study). CI runs them on Python 3.10 and 3.12 and
 checks that the committed trade-study report matches its inputs.
 
 ## Experimental protocol

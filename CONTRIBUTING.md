@@ -29,7 +29,7 @@ pip install -e ".[dev]"
 ```
 
 ```bash
-ruff check perception tools tests
+ruff check perception mechanical harvesting cad tools tests
 ```
 
 ```bash

@@ -22,7 +22,7 @@ jobs:
       - name: Install
         run: pip install -e ".[dev]"
       - name: Lint
-        run: ruff check perception mechanical cad tools tests
+        run: ruff check perception mechanical harvesting cad tools tests
       - name: Unit and integration tests
         run: pytest -q
       - name: Trade study is up to date

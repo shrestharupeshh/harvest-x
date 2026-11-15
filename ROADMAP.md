@@ -47,7 +47,9 @@ is tested where testable, and is committed; it never implies hardware validation
 - ⬜ Component selection, schematics, PCB decision, firmware with host-side tests
 
 ## Phase 5 — Integrated robotics software
-- ⬜ ROS 2 packages, state machine, experiment manager, dashboard
+- ✅ Hardware-independent harvest state machine with simulated gantry and tool
+- ✅ Integrated perception → decision → harvest simulation and report
+- ⬜ ROS 2 packages wrapping the libraries; experiment manager; dashboard
 
 ## Phase 6 — Prototype build package
 - ⬜ Final BOM (three cost tiers), drawings, assembly, wiring, calibration and safety procedures

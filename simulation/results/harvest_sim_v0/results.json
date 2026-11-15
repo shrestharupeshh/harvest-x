@@ -1,0 +1,312 @@
+{
+  "data_kind": "SIMULATED",
+  "git": "4156786",
+  "seed": 20261116,
+  "n_trays": 150,
+  "n_test_trays": 30,
+  "attempts": 32,
+  "attempts_truly_ready": 28,
+  "ready_plants_in_test": 96,
+  "table": {
+    "5|vision only (RGB-D centroid), open loop": {
+      "half_width_mm": 5,
+      "strategy": "vision only (RGB-D centroid), open loop",
+      "attempts": 32,
+      "outcomes": {
+        "BLIND_CUT": 26,
+        "HARVESTED": 6
+      },
+      "harvested": 0.1875,
+      "blind_cut": 0.8125,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.07234667138567
+    },
+    "5|fixture prior, open loop": {
+      "half_width_mm": 5,
+      "strategy": "fixture prior, open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 20,
+        "BLIND_CUT": 12
+      },
+      "harvested": 0.625,
+      "blind_cut": 0.375,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 9.892053197039777
+    },
+    "5|fusion, open loop": {
+      "half_width_mm": 5,
+      "strategy": "fusion, open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 18,
+        "BLIND_CUT": 14
+      },
+      "harvested": 0.5625,
+      "blind_cut": 0.4375,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 9.95910804463472
+    },
+    "5|fusion + stem sensor, no retry": {
+      "half_width_mm": 5,
+      "strategy": "fusion + stem sensor, no retry",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 18,
+        "MISSED": 14
+      },
+      "harvested": 0.5625,
+      "blind_cut": 0.0,
+      "missed": 0.4375,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 9.95910804463472
+    },
+    "5|fusion + stem sensor + lateral retry": {
+      "half_width_mm": 5,
+      "strategy": "fusion + stem sensor + lateral retry",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 18,
+        "MISSED": 14
+      },
+      "harvested": 0.5625,
+      "blind_cut": 0.0,
+      "missed": 0.4375,
+      "mean_seat_attempts": 1.875,
+      "mean_cycle_s": 9.95910804463472
+    },
+    "10|vision only (RGB-D centroid), open loop": {
+      "half_width_mm": 10,
+      "strategy": "vision only (RGB-D centroid), open loop",
+      "attempts": 32,
+      "outcomes": {
+        "BLIND_CUT": 20,
+        "HARVESTED": 12
+      },
+      "harvested": 0.375,
+      "blind_cut": 0.625,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.033956550933803
+    },
+    "10|fixture prior, open loop": {
+      "half_width_mm": 10,
+      "strategy": "fixture prior, open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 31,
+        "BLIND_CUT": 1
+      },
+      "harvested": 0.96875,
+      "blind_cut": 0.03125,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.040767931314935
+    },
+    "10|fusion, open loop": {
+      "half_width_mm": 10,
+      "strategy": "fusion, open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 31,
+        "BLIND_CUT": 1
+      },
+      "harvested": 0.96875,
+      "blind_cut": 0.03125,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.015350101250707
+    },
+    "10|fusion + stem sensor, no retry": {
+      "half_width_mm": 10,
+      "strategy": "fusion + stem sensor, no retry",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 31,
+        "MISSED": 1
+      },
+      "harvested": 0.96875,
+      "blind_cut": 0.0,
+      "missed": 0.03125,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.015350101250707
+    },
+    "10|fusion + stem sensor + lateral retry": {
+      "half_width_mm": 10,
+      "strategy": "fusion + stem sensor + lateral retry",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.03125,
+      "mean_cycle_s": 10.174629249903312
+    },
+    "15|vision only (RGB-D centroid), open loop": {
+      "half_width_mm": 15,
+      "strategy": "vision only (RGB-D centroid), open loop",
+      "attempts": 32,
+      "outcomes": {
+        "BLIND_CUT": 13,
+        "HARVESTED": 19
+      },
+      "harvested": 0.59375,
+      "blind_cut": 0.40625,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 9.947571993217156
+    },
+    "15|fixture prior, open loop": {
+      "half_width_mm": 15,
+      "strategy": "fixture prior, open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.048302246592684
+    },
+    "15|fusion, open loop": {
+      "half_width_mm": 15,
+      "strategy": "fusion, open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.047441749903314
+    },
+    "15|fusion + stem sensor, no retry": {
+      "half_width_mm": 15,
+      "strategy": "fusion + stem sensor, no retry",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.047441749903314
+    },
+    "15|fusion + stem sensor + lateral retry": {
+      "half_width_mm": 15,
+      "strategy": "fusion + stem sensor + lateral retry",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.047441749903314
+    },
+    "25|vision only (RGB-D centroid), open loop": {
+      "half_width_mm": 25,
+      "strategy": "vision only (RGB-D centroid), open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 26,
+        "BLIND_CUT": 6
+      },
+      "harvested": 0.8125,
+      "blind_cut": 0.1875,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 9.966041720161188
+    },
+    "25|fixture prior, open loop": {
+      "half_width_mm": 25,
+      "strategy": "fixture prior, open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.048302246592684
+    },
+    "25|fusion, open loop": {
+      "half_width_mm": 25,
+      "strategy": "fusion, open loop",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.047441749903314
+    },
+    "25|fusion + stem sensor, no retry": {
+      "half_width_mm": 25,
+      "strategy": "fusion + stem sensor, no retry",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.047441749903314
+    },
+    "25|fusion + stem sensor + lateral retry": {
+      "half_width_mm": 25,
+      "strategy": "fusion + stem sensor + lateral retry",
+      "attempts": 32,
+      "outcomes": {
+        "HARVESTED": 32
+      },
+      "harvested": 1.0,
+      "blind_cut": 0.0,
+      "missed": 0.0,
+      "mean_seat_attempts": 1.0,
+      "mean_cycle_s": 10.047441749903314
+    }
+  },
+  "harvest_config": {
+    "usable_half_width": 0.025,
+    "overtravel": 0.03,
+    "sensor_gate": true,
+    "max_seat_attempts": 3,
+    "retry_offset": 0.02,
+    "cut_armed": true,
+    "flank_standoff": 0.3,
+    "slow_zone": 0.15,
+    "approach_speed": 0.08,
+    "clear_height": 0.3,
+    "cut_time": 1.0,
+    "deposit_time": 1.0,
+    "tray_xy": [
+      0.05,
+      0.0
+    ],
+    "v_max": [
+      0.5,
+      0.5,
+      0.25
+    ],
+    "a_max": [
+      2.0,
+      2.0,
+      1.5
+    ],
+    "limits": null
+  }
+}
