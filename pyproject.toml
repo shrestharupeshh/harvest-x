@@ -24,12 +24,12 @@ dev = ["pytest>=7.4", "ruff>=0.4"]
 cad = ["cadquery>=2.4"]
 
 [tool.setuptools.packages.find]
-where = ["perception", "mechanical"]
-include = ["harvestx_perception*", "harvestx_mech*"]
+where = ["perception", "mechanical", "harvesting"]
+include = ["harvestx_perception*", "harvestx_mech*", "harvestx_harvest*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["perception", "mechanical", "cad/scripts", "tools/utilities"]
+pythonpath = ["perception", "mechanical", "harvesting", "cad/scripts", "tools/utilities"]
 markers = ["slow: end-to-end tests that take more than a few seconds"]
 
 [tool.ruff]
@@ -41,4 +41,4 @@ select = ["E", "F", "W", "I", "B", "UP"]
 ignore = ["E501", "E731", "E741", "B905"]  # E501: long f-strings in report writers
 
 [tool.ruff.lint.isort]
-known-first-party = ["harvestx_perception", "harvestx_mech", "harvestx_cad", "trade_study"]
+known-first-party = ["harvestx_perception", "harvestx_mech", "harvestx_harvest", "harvestx_cad", "trade_study"]
