@@ -38,3 +38,6 @@ target-version = "py310"
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
 ignore = ["E501", "E731", "B905"]  # E501: long f-strings in report writers
+
+[tool.ruff.lint.isort]
+known-first-party = ["harvestx_perception", "trade_study"]

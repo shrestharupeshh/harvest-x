@@ -22,6 +22,8 @@ from scipy import ndimage as ndi
 from skimage.feature import peak_local_max
 from skimage.segmentation import watershed
 
+SITE_COMPACTNESS = 0.01
+
 
 def excess_green(rgb: np.ndarray) -> np.ndarray:
     f = rgb.astype(np.float32)
@@ -108,7 +110,11 @@ def instance_segmentation(
             markers[r, c] = i
     if markers.max() == 0:
         return np.zeros(mask.shape, np.int32)
-    labels = watershed(-land, markers, mask=mask).astype(np.int32)
+    # Site-seeded mode uses a compact watershed: a plain watershed lets a tall neighbour
+    # whose canopy overhangs a shorter plant flood around that plant's marker and take
+    # over its whole region (observed in the synthetic benchmark, see KNOWN_LIMITATIONS).
+    compactness = SITE_COMPACTNESS if site_px is not None else 0.0
+    labels = watershed(-land, markers, mask=mask, compactness=compactness).astype(np.int32)
     for lab in np.unique(labels):
         if lab and (labels == lab).sum() < min_area:
             labels[labels == lab] = 0

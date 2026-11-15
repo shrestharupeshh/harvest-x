@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use HARVEST-X, please cite it as below."
+title: "HARVEST-X: An Open Research Platform for Autonomous Lettuce Harvesting in Controlled-Environment Agriculture"
+type: software
+authors:
+  - family-names: Shrestha
+    given-names: Rupesh
+repository-code: "https://github.com/shrestharupeshh/harvest-x"
+license: Apache-2.0
+version: 0.1.0
+date-released: 2026-11-15
+keywords:
+  - agricultural robotics
+  - controlled-environment agriculture
+  - lettuce harvesting
+  - RGB-D perception
+  - end effector
+abstract: >-
+  Work-in-progress open-source platform (software, hardware designs, simulation and
+  experimental protocols) for robotic harvesting of hydroponic lettuce. As of v0.1.0 only
+  the perception library and its synthetic-data benchmark are implemented; no hardware has
+  been built and no physical experiment has been performed.

@@ -1,6 +1,6 @@
 {
   "data_kind": "SYNTHETIC",
-  "git": "7a9b06c",
+  "git": "9413b64",
   "seed": 20261115,
   "n_trays": 150,
   "n_views": 2,
@@ -174,34 +174,34 @@
     },
     "fusion": {
       "n": 320,
-      "mean_mm": 8.075873150286498,
-      "median_mm": 6.946917863523161,
-      "p95_mm": 13.335369466010363,
+      "mean_mm": 7.954526743884185,
+      "median_mm": 6.987536434537359,
+      "p95_mm": 12.906903308687461,
       "mean_ci95_mm": [
-        7.185085474722631,
-        9.449133756646061
+        7.049921011257677,
+        9.336739247342434
       ],
-      "within_tol": 0.809375
+      "within_tol": 0.821875
     }
   },
   "uncertainty": {
     "method": "fusion",
     "fusion_vision_method": "centroid_3d",
     "fusion_val_scores_mm": {
-      "centroid": 10.9,
-      "dt_peak": 10.8,
-      "centroid_3d": 10.8,
-      "height_apex": 11.3
+      "centroid": 10.7,
+      "dt_peak": 10.7,
+      "centroid_3d": 10.7,
+      "height_apex": 11.2
     },
     "sigma_scale": {
-      "centroid": 0.1924,
-      "dt_peak": 0.1947,
-      "centroid_3d": 0.1779,
-      "height_apex": 0.2717,
-      "site_prior": 0.0082
+      "centroid": 0.1822,
+      "dt_peak": 0.1734,
+      "centroid_3d": 0.1646,
+      "height_apex": 0.2443,
+      "site_prior": 0.0065
     },
-    "coverage95": 0.971875,
-    "confidence_ece": 0.168225814914823
+    "coverage95": 0.95625,
+    "confidence_ece": 0.05722920297845564
   },
   "maturity": {
     "rule_diameter_px (RGB)": {
@@ -313,38 +313,84 @@
   "mass": {
     "rgb": {
       "mae_g": 20.715607061176236,
-      "mape": 0.2570733810523498,
+      "mape": 0.25707338105234984,
       "r2": 0.8836768258892282
     },
     "rgbd": {
       "mae_g": 16.59907463969021,
       "mape": 0.1731861464103101,
-      "r2": 0.9208032943792223
+      "r2": 0.9208032943792221
     }
   },
   "decision": {
-    "actions": {
-      "DEFER": 206,
-      "RESCAN": 31,
-      "REJECT": 83
-    },
     "n_truly_ready": 92,
-    "rule_based_with_refusal": {
-      "n_harvest": 0,
-      "correct": 0,
-      "wrong_maturity": 0,
-      "mislocalised": 0,
-      "precision": NaN,
-      "recall_of_ready": 0.0
+    "actions_by_confidence_min": {
+      "0.5": {
+        "DEFER": 206,
+        "HARVEST": 17,
+        "RESCAN": 14,
+        "REJECT": 83
+      },
+      "0.6": {
+        "DEFER": 206,
+        "HARVEST": 17,
+        "RESCAN": 14,
+        "REJECT": 83
+      },
+      "0.7": {
+        "DEFER": 206,
+        "HARVEST": 17,
+        "RESCAN": 14,
+        "REJECT": 83
+      },
+      "0.8": {
+        "DEFER": 206,
+        "RESCAN": 31,
+        "REJECT": 83
+      }
     },
-    "naive_harvest_if_predicted_ready": {
-      "n_harvest": 82,
-      "correct": 40,
-      "wrong_maturity": 29,
-      "mislocalised": 13,
-      "precision": 0.4878048780487805,
-      "recall_of_ready": 0.43478260869565216
+    "policies": {
+      "naive: harvest if predicted ready": {
+        "n_harvest": 82,
+        "correct": 39,
+        "wrong_maturity": 29,
+        "mislocalised": 14,
+        "precision": 0.47560975609756095,
+        "recall_of_ready": 0.42391304347826086
+      },
+      "rule + refusal, confidence >= 0.5": {
+        "n_harvest": 17,
+        "correct": 10,
+        "wrong_maturity": 3,
+        "mislocalised": 4,
+        "precision": 0.5882352941176471,
+        "recall_of_ready": 0.10869565217391304
+      },
+      "rule + refusal, confidence >= 0.6": {
+        "n_harvest": 17,
+        "correct": 10,
+        "wrong_maturity": 3,
+        "mislocalised": 4,
+        "precision": 0.5882352941176471,
+        "recall_of_ready": 0.10869565217391304
+      },
+      "rule + refusal, confidence >= 0.7": {
+        "n_harvest": 17,
+        "correct": 10,
+        "wrong_maturity": 3,
+        "mislocalised": 4,
+        "precision": 0.5882352941176471,
+        "recall_of_ready": 0.10869565217391304
+      },
+      "rule + refusal, confidence >= 0.8": {
+        "n_harvest": 0,
+        "correct": 0,
+        "wrong_maturity": 0,
+        "mislocalised": 0,
+        "precision": NaN,
+        "recall_of_ready": 0.0
+      }
     }
   },
-  "runtime_ms_per_image": 182.5873695333333
+  "runtime_ms_per_image": 175.49802461666482
 }

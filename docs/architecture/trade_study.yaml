@@ -1,0 +1,47 @@
+# Architecture trade study input. Scores are engineering judgement on a 1-5 scale
+# (5 = best for that criterion), NOT measurements. Rationale for every score is in
+# architecture_trade_study.md. Edit here and re-run tools/utilities/trade_study.py.
+architectures:
+  A_fixed_arm: "A - Fixed arm beside the growing rack"
+  B_mobile_manipulator: "B - Mobile base with onboard arm"
+  C_rail_mounted_arm: "C - Arm on a linear rail along the rack"
+
+criteria:            #  A  B  C
+  mechanical_simplicity:    [5, 2, 3]
+  cost:                     [5, 2, 3]
+  workspace_coverage:       [2, 5, 4]
+  reachability_per_plant:   [3, 3, 4]
+  throughput_potential:     [2, 3, 5]
+  positioning_precision:    [5, 2, 4]
+  low_navigation_burden:    [5, 1, 4]
+  low_collision_risk:       [4, 2, 4]
+  maintainability:          [5, 2, 3]
+  scalability:              [1, 4, 5]
+  experimental_feasibility: [5, 2, 3]
+
+# Weight profiles (each is normalised to sum to 1 by the tool).
+profiles:
+  research_prototype:   # goal: one reliable, well-instrumented harvest cycle
+    mechanical_simplicity: 12
+    cost: 10
+    workspace_coverage: 8
+    reachability_per_plant: 8
+    throughput_potential: 8
+    positioning_precision: 12
+    low_navigation_burden: 8
+    low_collision_risk: 6
+    maintainability: 6
+    scalability: 8
+    experimental_feasibility: 14
+  production_scaling:   # goal: serve many racks at commercial throughput
+    mechanical_simplicity: 6
+    cost: 8
+    workspace_coverage: 14
+    reachability_per_plant: 8
+    throughput_potential: 16
+    positioning_precision: 8
+    low_navigation_burden: 6
+    low_collision_risk: 6
+    maintainability: 8
+    scalability: 16
+    experimental_feasibility: 4
