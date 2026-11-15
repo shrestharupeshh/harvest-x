@@ -96,7 +96,14 @@ def process_frame(
     cut_height: float,
     cfg: PipelineConfig | None = None,
     maturity_model=None,
+    site_occupied: np.ndarray | None = None,
 ) -> FrameResult:
+    """Run the perception pipeline on one frame.
+
+    ``site_occupied`` (bool per site) comes from the plant registry: the farm knows
+    which sites were planted. Without it, a large plant overhanging an empty neighbour
+    site can be attributed to that site (see KNOWN_LIMITATIONS.md).
+    """
     cfg = cfg or PipelineConfig()
     T_cam_base = invert_T(T_base_cam)
     use_depth = cfg.use_depth and depth is not None
@@ -126,6 +133,9 @@ def process_frame(
     mask = semantic_mask(rgb, height, seg_method, cfg.min_area_px)
     sites_cam = transform_points(T_cam_base, sites_base)
     site_px, _ = intr.project(sites_cam)
+    if site_occupied is not None:
+        # unplanted sites get an off-image marker so label == site index + 1 still holds
+        site_px = np.where(np.asarray(site_occupied, bool)[:, None], site_px, -1e6)
     labels = instance_segmentation(
         mask, height, site_px if cfg.markers == "sites" else None, min_area=cfg.min_area_px
     )
@@ -144,6 +154,8 @@ def process_frame(
             site_idx: int | None = lab - 1
         else:
             dists = np.linalg.norm(sites_cam - c_cam, axis=1)
+            if site_occupied is not None:
+                dists = np.where(np.asarray(site_occupied, bool), dists, np.inf)
             site_idx = int(np.argmin(dists)) if dists.min() < 0.12 else None
         site_cam = sites_cam[site_idx] if site_idx is not None else None
 

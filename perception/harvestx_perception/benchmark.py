@@ -82,8 +82,12 @@ def split_trays(tray_ids: list[str], seed: int, frac=(0.6, 0.2, 0.2)) -> dict[st
 
 def run(s: SceneSample, cfg: PipelineConfig, model=None):
     r = s.rack
+    # Site occupancy is taken from the plant registry (which sites were planted); it is
+    # operational knowledge, not something perception has to infer.
+    occupied = np.zeros(len(s.meta["sites_est"]), bool)
+    occupied[[p.site_index for p in s.plants]] = True
     return process_frame(s.rgb, s.depth, s.intrinsics, s.meta["T_base_cam_est"],
-                         s.meta["sites_est"], r.plane_z, r.cut_height, cfg, model)
+                         s.meta["sites_est"], r.plane_z, r.cut_height, cfg, model, occupied)
 
 
 def eval_segmentation(samples: list[SceneSample], cfg: PipelineConfig) -> dict:
@@ -152,13 +156,19 @@ def col(rows, key, default=np.nan):
 
 
 def calibrate_sigma(train_rows) -> dict[str, float]:
-    """Fit the per-method sigma model on training trays (E[e^2] = 2 sigma^2 in 2D)."""
+    """Fit the per-method sigma model on training trays.
+
+    Robust estimator: for an isotropic 2D Gaussian the radial error is Rayleigh
+    distributed with median = sigma * sqrt(2 ln 2), so sigma = median / 1.1774. The
+    median is used instead of the RMS so that rare gross errors (wrong association)
+    do not inflate sigma for every plant.
+    """
     out = {}
     for m in (*VISION_METHODS, "site_prior"):
         e, r = col(train_rows, f"err_{m}"), col(train_rows, "r_eq")
         ok = np.isfinite(e) & np.isfinite(r) & (r > 0)
         z = e[ok] / r[ok] if m in SIZE_SCALED else e[ok]
-        out[m] = float(np.sqrt(np.mean(z**2) / 2))
+        out[m] = float(np.median(z) / np.sqrt(2 * np.log(2)))
     return out
 
 
@@ -262,32 +272,34 @@ def eval_mass(rows) -> dict:
     return out
 
 
-def eval_decisions(test_rows, tol: float) -> dict:
-    """Outcome of harvest decisions assuming an ideal manipulator (perception-only bound)."""
+def eval_decisions(test_rows, tol: float, conf_grid=(0.5, 0.6, 0.7, 0.8)) -> dict:
+    """Outcome of harvest decisions assuming an ideal manipulator (perception-only bound).
+
+    The confidence threshold is swept so that the precision/recall trade-off of refusing
+    uncertain targets is visible, instead of reporting one hand-picked operating point.
+    """
+    n_ready = sum(r["maturity"] == "harvest_ready" for r in test_rows)
+
     def tally(rows):
         n = len(rows)
         ok = sum(r["maturity"] == "harvest_ready" and r.get("err_selected", 9) <= tol for r in rows)
-        wrong_stage = sum(r["maturity"] != "harvest_ready" for r in rows)
-        misloc = sum(r["maturity"] == "harvest_ready" and r.get("err_selected", 9) > tol
-                     for r in rows)
-        return dict(n_harvest=n, correct=ok, wrong_maturity=wrong_stage, mislocalised=misloc,
-                    precision=ok / n if n else float("nan"))
+        return dict(n_harvest=n, correct=ok,
+                    wrong_maturity=sum(r["maturity"] != "harvest_ready" for r in rows),
+                    mislocalised=sum(r["maturity"] == "harvest_ready"
+                                     and r.get("err_selected", 9) > tol for r in rows),
+                    precision=ok / n if n else float("nan"),
+                    recall_of_ready=ok / n_ready if n_ready else float("nan"))
 
-    acts = Counter()
-    gated, naive = [], []
-    for r in test_rows:
-        d = dec.decide(r["obs"])
-        acts[d.action] += 1
-        if d.action == dec.HARVEST:
-            gated.append(r)
-        if r["obs"].maturity == "harvest_ready":
-            naive.append(r)
-    n_ready = sum(r["maturity"] == "harvest_ready" for r in test_rows)
-    out = dict(actions=dict(acts), n_truly_ready=n_ready,
-               rule_based_with_refusal=tally(gated), naive_harvest_if_predicted_ready=tally(naive))
-    for k in ("rule_based_with_refusal", "naive_harvest_if_predicted_ready"):
-        out[k]["recall_of_ready"] = out[k]["correct"] / n_ready if n_ready else float("nan")
-    return out
+    policies = {"naive: harvest if predicted ready": tally(
+        [r for r in test_rows if r["obs"].maturity == "harvest_ready"])}
+    actions = {}
+    for c in conf_grid:
+        cfg = dec.DecisionConfig(confidence_min=c)
+        acts = Counter(dec.decide(r["obs"], cfg).action for r in test_rows)
+        actions[f"{c:.1f}"] = dict(acts)
+        policies[f"rule + refusal, confidence >= {c:.1f}"] = tally(
+            [r for r in test_rows if dec.decide(r["obs"], cfg).action == dec.HARVEST])
+    return dict(n_truly_ready=n_ready, actions_by_confidence_min=actions, policies=policies)
 
 
 # ------------------------------------------------------------------ figures ----
@@ -404,14 +416,15 @@ def write_report(res: dict, out: Path):
         L.append(f"| {k} | {v['mae_g']:.1f} | {v['mape']:.3f} | {v['r2']:.3f} |")
     d = res["decision"]
     L += ["", "## 5. Harvest decision (perception-only upper bound, ideal manipulator)", "",
-          f"Actions on test detections: `{d['actions']}`; truly harvest-ready: "
-          f"{d['n_truly_ready']}.", "",
+          f"Truly harvest-ready plants among test detections: {d['n_truly_ready']}. A harvest "
+          "counts as correct only if the plant is truly harvest-ready AND the target error is "
+          "within tolerance. P(harvest_ready) threshold fixed at 0.6.", "",
           "| policy | harvest attempts | correct | wrong maturity | mislocalised | precision | "
           "recall of ready |", "|---|---|---|---|---|---|---|"]
-    for k in ("naive_harvest_if_predicted_ready", "rule_based_with_refusal"):
-        v = d[k]
+    for k, v in d["policies"].items():
         L.append(f"| {k} | {v['n_harvest']} | {v['correct']} | {v['wrong_maturity']} | "
                  f"{v['mislocalised']} | {v['precision']:.2f} | {v['recall_of_ready']:.2f} |")
+    L += ["", f"Actions by confidence threshold: `{d['actions_by_confidence_min']}`."]
     L += ["", "## 6. Runtime", "",
           f"Full pipeline: {res['runtime_ms_per_image']:.0f} ms per 640x480 frame "
           f"(single CPU thread of the CI container; not an embedded-target measurement).", "",
